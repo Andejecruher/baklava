@@ -1,11 +1,11 @@
 ---
 import type { HoursEntry } from "../data/site";
-interface Props { hours: HoursEntry[]; }
-const { hours } = Astro.props;
+interface Props { hours: HoursEntry[]; title?: string; ariaLabel?: string; }
+const { hours, title = 'Horarios', ariaLabel = 'Horarios de apertura' } = Astro.props;
 ---
 
 <section class="section" aria-labelledby="hours-title">
-  <h2 class="section-title" id="hours-title">Horarios</h2>
+  <h2 class="section-title" id="hours-title">{title}</h2>
   <div class="card hours" role="list">
     <div class="hours-icon" aria-hidden="true">
       <svg
@@ -21,7 +21,7 @@ const { hours } = Astro.props;
         <polyline points="12 6 12 12 16 14"/>
       </svg>
     </div>
-    <ul role="list" aria-label="Horarios de apertura">
+    <ul role="list" aria-label={ariaLabel}>
       {hours.map((h) => (
         <li role="listitem">
           <span class="day">{h.day}</span>

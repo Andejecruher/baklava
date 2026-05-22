@@ -1,16 +1,28 @@
 ---
-interface Props { name: string; logo: string; }
-const { name, logo } = Astro.props;
+interface Props {
+  name: string;
+  logo: string;
+  tagline?: string;
+  promoNote?: string;
+  rights?: string;
+}
+const {
+  name,
+  logo,
+  tagline = 'Experiencias frescas frente al mar.',
+  promoNote = 'Promociones sujetas a disponibilidad.',
+  rights = 'Todos los derechos reservados.',
+} = Astro.props;
 ---
 
 <footer class="foot" role="contentinfo">
   <div class="divider" aria-hidden="true"></div>
   <img src={logo} alt={`Logo de ${name}`} width="140" height="auto" loading="lazy" />
   <p class="brand">{name}</p>
-  <p class="tagline">Experiencias frescas frente al mar.</p>
-  <p class="note" role="note">Promociones sujetas a disponibilidad.</p>
+  <p class="tagline">{tagline}</p>
+  <p class="note" role="note">{promoNote}</p>
   <p class="copy">
-    <small>© {new Date().getFullYear()} {name}. Todos los derechos reservados.</small>
+    <small>© {new Date().getFullYear()} {name}. {rights}</small>
   </p>
 </footer>
 

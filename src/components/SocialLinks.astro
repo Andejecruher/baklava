@@ -4,19 +4,20 @@ interface Props {
   instagramHandle: string;
   facebookHref: string;
   facebookName: string;
+  title?: string;
 }
-const { instagramHref, instagramHandle, facebookHref, facebookName } = Astro.props;
+const { instagramHref, instagramHandle, facebookHref, facebookName, title = '' } = Astro.props;
 ---
 
 <section class="section" aria-labelledby="social-title">
-  <h2 class="section-title" id="social-title">Síguenos</h2>
+  <h2 class="section-title" id="social-title">{title}</h2>
   <div class="grid">
     <a
       href={instagramHref}
       target="_blank"
       rel="noopener noreferrer"
       class="social card ig"
-      aria-label={`Seguir en Instagram — ${instagramHandle}`}
+      aria-label={`Instagram — ${instagramHandle}`}
     >
       <div class="icon" aria-hidden="true">
         <svg
@@ -44,7 +45,7 @@ const { instagramHref, instagramHandle, facebookHref, facebookName } = Astro.pro
       target="_blank"
       rel="noopener noreferrer"
       class="social card fb"
-      aria-label={`Seguir en Facebook — ${facebookName}`}
+      aria-label={`Facebook — ${facebookName}`}
     >
       <div class="icon" aria-hidden="true">
         <svg

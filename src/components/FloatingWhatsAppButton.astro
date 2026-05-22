@@ -5,7 +5,7 @@ interface Props {
 }
 const {
   href,
-  label = "Reservar por WhatsApp",
+  label = "",
 } = Astro.props;
 ---
 
@@ -14,7 +14,7 @@ const {
   target="_blank"
   rel="noopener noreferrer"
   class="wa-fab"
-  aria-label={`${label} — abre WhatsApp en nueva pestaña`}
+  aria-label={label}
 >
   <svg
     class="wa-icon"

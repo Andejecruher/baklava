@@ -16,6 +16,7 @@ interface Props {
   imageHeight?: number;
   imageAlt?: string;
   themeColor?: string;
+  breadcrumbHome?: string;
 }
 
 const {
@@ -33,6 +34,7 @@ const {
   imageHeight,
   imageAlt,
   themeColor,
+  breadcrumbHome,
 } = Astro.props;
 
 const { seo, schema, brand, links } = siteData;
@@ -45,6 +47,9 @@ const seoType = type ?? seo.type;
 const seoLocale = locale ?? seo.locale;
 const seoSiteName = siteName ?? seo.siteName;
 const seoThemeColor = themeColor ?? seo.themeColor;
+
+// BCP-47 language tag for schema inLanguage (derive from OG locale, e.g. "es_MX" → "es")
+const schemaInLanguage = seoLocale.replace('_', '-').split('-')[0] ?? 'es';
 
 const socialImagePath = image ?? seo.image;
 const socialImageWidth = imageWidth ?? seo.imageWidth;
@@ -101,7 +106,7 @@ const websiteSchema = {
   "@id": `${cleanTrailingSlash(baseUrl)}#website`,
   url: canonicalUrl,
   name: seoSiteName,
-  inLanguage: "es-MX",
+  inLanguage: schemaInLanguage,
 };
 
 const webPageSchema = {
@@ -110,7 +115,7 @@ const webPageSchema = {
   url: canonicalUrl,
   name: seoTitle,
   description: seoDescription,
-  inLanguage: "es-MX",
+  inLanguage: schemaInLanguage,
   isPartOf: {
     "@id": `${cleanTrailingSlash(baseUrl)}#website`,
   },
@@ -126,7 +131,7 @@ const breadcrumbSchema = {
     {
       "@type": "ListItem",
       position: 1,
-      name: "Inicio",
+      name: breadcrumbHome ?? "Inicio",
       item: canonicalUrl,
     },
   ],
