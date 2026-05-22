@@ -1,0 +1,104 @@
+---
+import { LOCALE_LABEL, LOCALES, type Locale } from '../i18n/config';
+import { localeUrl } from '../i18n/utils';
+
+interface Props {
+  currentLocale: Locale;
+  label: string;
+}
+
+const { currentLocale, label } = Astro.props;
+---
+
+<div class="lang-selector" role="navigation" aria-label={label}>
+  <ul role="list">
+    {LOCALES.map((locale) => {
+      const isCurrent = locale === currentLocale;
+      return (
+        <li role="listitem">
+          <a
+            href={localeUrl(locale)}
+            aria-current={isCurrent ? 'page' : undefined}
+            aria-label={`${LOCALE_LABEL[locale]}${isCurrent ? ' (current)' : ''}`}
+            data-lang={locale}
+            class:list={['lang-btn', { active: isCurrent }]}
+          >
+            {LOCALE_LABEL[locale]}
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+</div>
+
+<!-- Persist selection in cookie (server-compatible) + localStorage fallback -->
+<script>
+  import { LOCALE_STORAGE_KEY } from '../i18n/config';
+
+  document.querySelectorAll<HTMLAnchorElement>('[data-lang]').forEach((link) => {
+    link.addEventListener('click', () => {
+      const lang = link.dataset.lang;
+      if (!lang) return;
+
+      // Cookie — 1 year, path=/, SameSite=Lax, no Secure flag for localhost compat
+      const expires = new Date();
+      expires.setFullYear(expires.getFullYear() + 1);
+      document.cookie = `${LOCALE_STORAGE_KEY}=${lang}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+
+      // localStorage as secondary fallback
+      try {
+        localStorage.setItem(LOCALE_STORAGE_KEY, lang);
+      } catch {
+        // Storage not available — silently ignore
+      }
+    });
+  });
+</script>
+
+<style>
+  .lang-selector {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 4px;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: inline-flex;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 999px;
+    padding: 4px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .lang-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--c-muted);
+    text-decoration: none;
+    transition:
+      background var(--duration-base) ease,
+      color var(--duration-base) ease;
+    white-space: nowrap;
+  }
+
+  .lang-btn:hover {
+    color: var(--c-navy);
+    background: rgba(25, 184, 198, 0.08);
+  }
+
+  .lang-btn.active {
+    background: var(--c-turquoise);
+    color: var(--c-white);
+  }
+</style>
