@@ -1,16 +1,16 @@
 ---
-import SEO from "../components/SEO.astro";
+import SEO from '../components/SEO.astro';
 import { ViewTransitions } from 'astro:transitions';
-import { LOCALE_LANG, type Locale } from "../i18n/config";
-import { buildHreflangAlternates } from "../i18n/utils";
-import { siteData } from "../data/site";
+import { LOCALE_LANG, type Locale } from '../i18n/config';
+import { buildHreflangAlternates } from '../i18n/utils';
+import { siteData } from '../data/site';
 
 interface Props {
   title?: string;
   description?: string;
   canonical?: string;
   image?: string;
-  type?: "website" | "article";
+  type?: 'website' | 'article';
   locale?: string;
   siteName?: string;
   publishedTime?: string;
@@ -56,9 +56,11 @@ const hreflangLinks = buildHreflangAlternates(siteData.seo.siteUrl, Astro.url.pa
       breadcrumbHome={breadcrumbHome}
     />
     <!-- hreflang alternates for multilingual SEO -->
-    {hreflangLinks.map(({ locale: loc, href }) => (
-      <link rel="alternate" hreflang={loc} href={href} />
-    ))}
+    {
+      hreflangLinks.map(({ locale: loc, href }) => (
+        <link rel="alternate" hreflang={loc} href={href} />
+      ))
+    }
     <link rel="alternate" hreflang="x-default" href={siteData.seo.siteUrl + '/'} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -74,16 +76,27 @@ const hreflangLinks = buildHreflangAlternates(siteData.seo.siteUrl, Astro.url.pa
       <div class="blob blob-1"></div>
       <div class="blob blob-2"></div>
       <div class="blob blob-3"></div>
-      <svg class="waves" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
-        <path
-          fill="rgba(25,184,198,0.07)"
-          d="M0,160L60,170.7C120,181,240,203,360,197.3C480,192,600,160,720,154.7C840,149,960,171,1080,176C1200,181,1320,171,1380,165.3L1440,160L1440,320L0,320Z"
-        ></path>
-        <path
-          fill="rgba(25,184,198,0.04)"
-          d="M0,224L48,213.3C96,203,192,181,288,186.7C384,192,480,224,576,229.3C672,235,768,213,864,208C960,203,1056,213,1152,208C1248,203,1344,181,1392,170.7L1440,160L1440,320L0,320Z"
-        ></path>
-      </svg>
+      <!-- Ocean wave layers: 3 SVGs scrolling at different speeds for parallax depth -->
+      <div class="waves-container" aria-hidden="true">
+        <svg class="wave wave--back" viewBox="0 0 2880 320" preserveAspectRatio="none">
+          <path
+            fill="rgba(25,184,198,0.05)"
+            d="M0,196 C80,184 160,184 240,196 C320,208 400,208 480,196 C560,184 640,184 720,196 C800,208 880,208 960,196 C1040,184 1120,184 1200,196 C1280,208 1360,208 1440,196 C1520,184 1600,184 1680,196 C1760,208 1840,208 1920,196 C2000,184 2080,184 2160,196 C2240,208 2320,208 2400,196 C2480,184 2560,184 2640,196 C2720,208 2800,208 2880,196 L2880,320 L0,320 Z"
+          ></path>
+        </svg>
+        <svg class="wave wave--mid" viewBox="0 0 2880 320" preserveAspectRatio="none">
+          <path
+            fill="rgba(25,184,198,0.07)"
+            d="M0,213 C120,193 240,193 360,213 C480,233 600,233 720,213 C840,193 960,193 1080,213 C1200,233 1320,233 1440,213 C1560,193 1680,193 1800,213 C1920,233 2040,233 2160,213 C2280,193 2400,193 2520,213 C2640,233 2760,233 2880,213 L2880,320 L0,320 Z"
+          ></path>
+        </svg>
+        <svg class="wave wave--front" viewBox="0 0 2880 320" preserveAspectRatio="none">
+          <path
+            fill="rgba(25,184,198,0.10)"
+            d="M0,232 C120,257 240,257 360,232 C480,207 600,207 720,232 C840,257 960,257 1080,232 C1200,207 1320,207 1440,232 C1560,257 1680,257 1800,232 C1920,207 2040,207 2160,232 C2280,257 2400,257 2520,232 C2640,207 2760,207 2880,232 L2880,320 L0,320 Z"
+          ></path>
+        </svg>
+      </div>
     </div>
 
     <main class="shell" id="main-content">
@@ -110,7 +123,9 @@ const hreflangLinks = buildHreflangAlternates(siteData.seo.siteUrl, Astro.url.pa
         var saved = getCookie(LOCALE_STORAGE_KEY);
         if (!saved) {
           // Priority 2: localStorage fallback
-          try { saved = localStorage.getItem(LOCALE_STORAGE_KEY) || undefined; } catch (e) {}
+          try {
+            saved = localStorage.getItem(LOCALE_STORAGE_KEY) || undefined;
+          } catch (e) {}
         }
 
         // Priority 3: browser language
@@ -138,34 +153,34 @@ const hreflangLinks = buildHreflangAlternates(siteData.seo.siteUrl, Astro.url.pa
     <style is:global>
       /* ── Design tokens ─────────────────────────────────────── */
       :root {
-        --c-turquoise:    #19B8C6;
-        --c-turquoise-dk: #109AA8;
-        --c-navy:         #073B4C;
-        --c-deep:         #0B2D3A;
-        --c-muted:        #5B7280;
-        --c-surface:      #F7FCFB;
-        --c-bg:           #FFFDF8;
-        --c-white:        #ffffff;
-        --c-whatsapp:     #25D366;
-        --c-whatsapp-dk:  #1EBE5D;
-        --c-sand:         #f0ede6;
+        --c-turquoise: #19b8c6;
+        --c-turquoise-dk: #109aa8;
+        --c-navy: #073b4c;
+        --c-deep: #0b2d3a;
+        --c-muted: #5b7280;
+        --c-surface: #f7fcfb;
+        --c-bg: #fffdf8;
+        --c-white: #ffffff;
+        --c-whatsapp: #25d366;
+        --c-whatsapp-dk: #1ebe5d;
+        --c-sand: #f0ede6;
 
         /* Legacy aliases kept for component compatibility */
-        --turquoise:      var(--c-turquoise);
+        --turquoise: var(--c-turquoise);
         --turquoise-soft: #b8e8df;
-        --navy:           var(--c-navy);
-        --deep:           var(--c-deep);
-        --sand:           var(--c-sand);
-        --white:          var(--c-white);
-        --ink:            var(--c-deep);
-        --muted:          var(--c-muted);
+        --navy: var(--c-navy);
+        --deep: var(--c-deep);
+        --sand: var(--c-sand);
+        --white: var(--c-white);
+        --ink: var(--c-deep);
+        --muted: var(--c-muted);
 
         --radius: 18px;
-        --shadow-sm: 0 4px 14px rgba(7,59,76,0.08);
-        --shadow-md: 0 12px 32px rgba(7,59,76,0.13);
-        --shadow-lg: 0 24px 60px rgba(7,59,76,0.18);
+        --shadow-sm: 0 4px 14px rgba(7, 59, 76, 0.08);
+        --shadow-md: 0 12px 32px rgba(7, 59, 76, 0.13);
+        --shadow-lg: 0 24px 60px rgba(7, 59, 76, 0.18);
 
-        --font-sans:    'Inter', system-ui, -apple-system, sans-serif;
+        --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
         --font-display: 'Fraunces', Georgia, serif;
 
         /* Animation timings */
@@ -174,15 +189,23 @@ const hreflangLinks = buildHreflangAlternates(siteData.seo.siteUrl, Astro.url.pa
       }
 
       /* ── Reset ─────────────────────────────────────────────── */
-      *, *::before, *::after { box-sizing: border-box; }
-      html, body { margin: 0; padding: 0; }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
 
       body {
         font-family: var(--font-sans);
         color: var(--c-deep);
         background:
-          radial-gradient(1200px 600px at 0% -10%, rgba(25,184,198,0.14), transparent 60%),
-          radial-gradient(900px 500px at 100% 10%,  rgba(184,232,223,0.28), transparent 55%),
+          radial-gradient(1200px 600px at 0% -10%, rgba(25, 184, 198, 0.14), transparent 60%),
+          radial-gradient(900px 500px at 100% 10%, rgba(184, 232, 223, 0.28), transparent 55%),
           linear-gradient(180deg, var(--c-surface) 0%, var(--c-bg) 100%);
         min-height: 100vh;
         -webkit-font-smoothing: antialiased;
@@ -207,42 +230,77 @@ const hreflangLinks = buildHreflangAlternates(siteData.seo.siteUrl, Astro.url.pa
         animation: blobDrift 18s ease-in-out infinite alternate;
       }
       .blob-1 {
-        width: 420px; height: 420px;
+        width: 420px;
+        height: 420px;
         background: var(--c-turquoise);
-        top: -140px; right: -140px;
+        top: -140px;
+        right: -140px;
         animation-duration: 20s;
       }
       .blob-2 {
-        width: 340px; height: 340px;
+        width: 340px;
+        height: 340px;
         background: var(--turquoise-soft);
-        bottom: 8%; left: -110px;
+        bottom: 8%;
+        left: -110px;
         opacity: 0.55;
         animation-duration: 24s;
         animation-delay: -6s;
       }
       .blob-3 {
-        width: 260px; height: 260px;
+        width: 260px;
+        height: 260px;
         background: var(--c-turquoise-dk);
-        bottom: 40%; right: -80px;
+        bottom: 40%;
+        right: -80px;
         opacity: 0.2;
         animation-duration: 28s;
         animation-delay: -12s;
       }
 
-      .waves {
+      .waves-container {
         position: absolute;
-        bottom: 0; left: 0;
-        width: 100%; height: 220px;
-        animation: waveDrift 22s ease-in-out infinite alternate;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 220px;
+        overflow: hidden;
+      }
+
+      .wave {
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 200%;
+        height: 100%;
+      }
+
+      .wave--back {
+        animation: waveScroll 22s linear infinite;
+      }
+      .wave--mid {
+        animation: waveScroll 15s linear infinite;
+      }
+      .wave--front {
+        animation: waveScroll 9s linear infinite;
       }
 
       @keyframes blobDrift {
-        0%   { transform: translate(0, 0) scale(1); }
-        100% { transform: translate(20px, 30px) scale(1.08); }
+        0% {
+          transform: translate(0, 0) scale(1);
+        }
+        100% {
+          transform: translate(20px, 30px) scale(1.08);
+        }
       }
-      @keyframes waveDrift {
-        0%   { transform: translateX(0); }
-        100% { transform: translateX(30px); }
+      @keyframes waveScroll {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
       }
 
       /* ── Layout shell ──────────────────────────────────────── */
@@ -254,12 +312,20 @@ const hreflangLinks = buildHreflangAlternates(siteData.seo.siteUrl, Astro.url.pa
         padding: 32px 20px 120px;
       }
       @media (min-width: 768px) {
-        .shell { max-width: 640px; padding: 56px 24px 120px; }
+        .shell {
+          max-width: 640px;
+          padding: 56px 24px 120px;
+        }
       }
 
       /* ── Base typography & links ───────────────────────────── */
-      a { color: inherit; text-decoration: none; }
-      h1, h2, h3 {
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      h1,
+      h2,
+      h3 {
         font-family: var(--font-display);
         letter-spacing: -0.01em;
         margin: 0;
@@ -280,21 +346,23 @@ const hreflangLinks = buildHreflangAlternates(siteData.seo.siteUrl, Astro.url.pa
         letter-spacing: 0.18em;
         text-transform: uppercase;
         color: var(--c-turquoise);
-        background: rgba(25,184,198,0.1);
+        background: rgba(25, 184, 198, 0.1);
         padding: 6px 14px;
         border-radius: 999px;
       }
 
       .card {
-        background: rgba(255,255,255,0.88);
+        background: rgba(255, 255, 255, 0.88);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255,255,255,0.72);
+        border: 1px solid rgba(255, 255, 255, 0.72);
         border-radius: var(--radius);
         box-shadow: var(--shadow-sm);
       }
 
-      .section { margin-top: 36px; }
+      .section {
+        margin-top: 36px;
+      }
       .section-title {
         font-size: 11px;
         font-weight: 700;
@@ -308,12 +376,22 @@ const hreflangLinks = buildHreflangAlternates(siteData.seo.siteUrl, Astro.url.pa
 
       /* ── Entrance animations ───────────────────────────────── */
       @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to   { opacity: 1; transform: translateY(0); }
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
       @keyframes fadeIn {
-        from { opacity: 0; }
-        to   { opacity: 1; }
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
 
       .anim-fade-up {
@@ -324,16 +402,30 @@ const hreflangLinks = buildHreflangAlternates(siteData.seo.siteUrl, Astro.url.pa
       }
 
       /* Stagger helpers */
-      .stagger-1 { animation-delay: 0.05s; }
-      .stagger-2 { animation-delay: 0.10s; }
-      .stagger-3 { animation-delay: 0.15s; }
-      .stagger-4 { animation-delay: 0.20s; }
-      .stagger-5 { animation-delay: 0.25s; }
-      .stagger-6 { animation-delay: 0.30s; }
+      .stagger-1 {
+        animation-delay: 0.05s;
+      }
+      .stagger-2 {
+        animation-delay: 0.1s;
+      }
+      .stagger-3 {
+        animation-delay: 0.15s;
+      }
+      .stagger-4 {
+        animation-delay: 0.2s;
+      }
+      .stagger-5 {
+        animation-delay: 0.25s;
+      }
+      .stagger-6 {
+        animation-delay: 0.3s;
+      }
 
       /* ── Reduced motion ────────────────────────────────────── */
       @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after {
+        *,
+        *::before,
+        *::after {
           animation-duration: 0.01ms !important;
           animation-iteration-count: 1 !important;
           transition-duration: 0.01ms !important;
