@@ -1,0 +1,202 @@
+---
+import SEO from "../components/SEO.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+  type?: "website" | "article";
+  locale?: string;
+  siteName?: string;
+  publishedTime?: string;
+  modifiedTime?: string;
+  noindex?: boolean;
+}
+const {
+  title,
+  description,
+  canonical,
+  image,
+  type,
+  locale,
+  siteName,
+  publishedTime,
+  modifiedTime,
+  noindex,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <SEO
+      title={title}
+      description={description}
+      canonical={canonical}
+      image={image}
+      type={type}
+      locale={locale}
+      siteName={siteName}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      noindex={noindex}
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="bg-decor" aria-hidden="true">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <svg class="waves" viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path
+          fill="rgba(16,184,196,0.08)"
+          d="M0,160L60,170.7C120,181,240,203,360,197.3C480,192,600,160,720,154.7C840,149,960,171,1080,176C1200,181,1320,171,1380,165.3L1440,160L1440,320L0,320Z"
+        ></path>
+      </svg>
+    </div>
+    <main class="shell">
+      <slot />
+    </main>
+
+    <style is:global>
+      :root {
+        --turquoise: #10b8c4;
+        --turquoise-soft: #bdead9;
+        --navy: #063b5b;
+        --deep: #012a3a;
+        --sand: #f6efe6;
+        --white: #ffffff;
+        --ink: #0a2231;
+        --muted: #5d7684;
+        --radius: 18px;
+        --shadow-sm: 0 4px 14px rgba(6, 59, 91, 0.08);
+        --shadow-md: 0 12px 32px rgba(6, 59, 91, 0.12);
+        --shadow-lg: 0 24px 60px rgba(1, 42, 58, 0.18);
+        --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+        --font-display: 'Fraunces', Georgia, serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: var(--font-sans);
+        color: var(--ink);
+        background:
+          radial-gradient(1200px 600px at 0% -10%, rgba(16, 184, 196, 0.18), transparent 60%),
+          radial-gradient(900px 500px at 100% 10%, rgba(189, 234, 217, 0.35), transparent 55%),
+          linear-gradient(180deg, #f4fbfc 0%, var(--sand) 100%);
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      .bg-decor {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(60px);
+        opacity: 0.5;
+      }
+      .blob-1 {
+        width: 380px;
+        height: 380px;
+        background: var(--turquoise);
+        top: -120px;
+        right: -120px;
+      }
+      .blob-2 {
+        width: 320px;
+        height: 320px;
+        background: var(--turquoise-soft);
+        bottom: 10%;
+        left: -100px;
+        opacity: 0.6;
+      }
+      .waves {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 200px;
+      }
+
+      .shell {
+        position: relative;
+        z-index: 1;
+        max-width: 560px;
+        margin: 0 auto;
+        padding: 32px 20px 80px;
+      }
+      @media (min-width: 768px) {
+        .shell {
+          max-width: 640px;
+          padding: 56px 24px 96px;
+        }
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-display);
+        letter-spacing: -0.01em;
+        margin: 0;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--turquoise);
+        background: rgba(16, 184, 196, 0.1);
+        padding: 6px 12px;
+        border-radius: 999px;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .section {
+        margin-top: 36px;
+      }
+      .section-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--navy);
+        opacity: 0.7;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin: 0 0 14px 4px;
+      }
+    </style>
+  </body>
+</html>

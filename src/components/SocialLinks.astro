@@ -1,0 +1,55 @@
+---
+interface Props {
+  instagramHref: string;
+  instagramHandle: string;
+  facebookHref: string;
+  facebookName: string;
+}
+const { instagramHref, instagramHandle, facebookHref, facebookName } = Astro.props;
+---
+
+<section class="section">
+  <h2 class="section-title">Síguenos</h2>
+  <div class="grid">
+    <a href={instagramHref} target="_blank" rel="noopener" class="social card ig">
+      <div class="icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+      </div>
+      <div>
+        <p class="net">Instagram</p>
+        <p class="handle">{instagramHandle}</p>
+      </div>
+    </a>
+    <a href={facebookHref} target="_blank" rel="noopener" class="social card fb">
+      <div class="icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </div>
+      <div>
+        <p class="net">Facebook</p>
+        <p class="handle">{facebookName}</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<style>
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .social {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .social:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .icon {
+    width: 42px; height: 42px; border-radius: 12px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--white); flex-shrink: 0;
+  }
+  .ig .icon { background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af); }
+  .fb .icon { background: linear-gradient(135deg, #1877f2, #0a52c5); }
+  .net { margin: 0; font-size: 12px; color: var(--muted); font-weight: 500; }
+  .handle { margin: 2px 0 0; font-size: 13.5px; font-weight: 600; color: var(--deep); }
+  @media (max-width: 380px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>

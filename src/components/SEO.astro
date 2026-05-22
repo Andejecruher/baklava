@@ -1,0 +1,181 @@
+---
+import { siteData } from "../data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+  type?: "website" | "article";
+  locale?: string;
+  siteName?: string;
+  publishedTime?: string;
+  modifiedTime?: string;
+  noindex?: boolean;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageAlt?: string;
+  themeColor?: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  image,
+  type,
+  locale,
+  siteName,
+  publishedTime,
+  modifiedTime,
+  noindex = false,
+  imageWidth,
+  imageHeight,
+  imageAlt,
+  themeColor,
+} = Astro.props;
+
+const { seo, schema, brand, links } = siteData;
+
+const baseUrl = seo.siteUrl;
+const seoTitle = title ?? seo.defaultTitle;
+const seoDescription = description ?? seo.defaultDescription;
+const seoCanonical = canonical ?? `${baseUrl}/`;
+const seoType = type ?? seo.type;
+const seoLocale = locale ?? seo.locale;
+const seoSiteName = siteName ?? seo.siteName;
+const seoThemeColor = themeColor ?? seo.themeColor;
+
+const socialImagePath = image ?? seo.image;
+const socialImageWidth = imageWidth ?? seo.imageWidth;
+const socialImageHeight = imageHeight ?? seo.imageHeight;
+const socialImageAlt = imageAlt ?? seo.imageAlt;
+
+const isAbsoluteUrl = (value: string) => /^https?:\/\//i.test(value);
+const absoluteUrl = (value: string) =>
+  isAbsoluteUrl(value) ? value : new URL(value, `${baseUrl}/`).toString();
+const cleanTrailingSlash = (value: string) => value.replace(/\/$/, "");
+const isPlaceholder = (value?: string) => !value || value.startsWith("TODO_REPLACE");
+
+const canonicalUrl = absoluteUrl(seoCanonical);
+const socialImageUrl = absoluteUrl(socialImagePath);
+const logoUrl = absoluteUrl(brand.logo);
+const menuUrl = absoluteUrl(schema.menuUrl || links.menu);
+
+const restaurantAddress = isPlaceholder(schema.address.streetAddress)
+  ? undefined
+  : {
+      "@type": "PostalAddress",
+      streetAddress: schema.address.streetAddress,
+      addressLocality: schema.address.addressLocality,
+      addressRegion: schema.address.addressRegion,
+      postalCode: isPlaceholder(schema.address.postalCode)
+        ? undefined
+        : schema.address.postalCode,
+      addressCountry: schema.address.addressCountry,
+    };
+
+const validOpeningHours = (schema.openingHours || []).filter(
+  (slot) => !isPlaceholder(slot),
+);
+
+const restaurantSchema = {
+  "@type": "Restaurant",
+  "@id": `${cleanTrailingSlash(baseUrl)}#restaurant`,
+  name: brand.name,
+  url: canonicalUrl,
+  logo: logoUrl,
+  image: socialImageUrl,
+  description: seoDescription,
+  servesCuisine: "Mediterranean",
+  priceRange: schema.priceRange,
+  sameAs: schema.sameAs,
+  menu: menuUrl,
+  address: restaurantAddress,
+  telephone: isPlaceholder(schema.telephone) ? undefined : schema.telephone,
+  openingHours: validOpeningHours.length > 0 ? validOpeningHours : undefined,
+};
+
+const websiteSchema = {
+  "@type": "WebSite",
+  "@id": `${cleanTrailingSlash(baseUrl)}#website`,
+  url: canonicalUrl,
+  name: seoSiteName,
+  inLanguage: "es-MX",
+};
+
+const webPageSchema = {
+  "@type": "WebPage",
+  "@id": `${canonicalUrl}#webpage`,
+  url: canonicalUrl,
+  name: seoTitle,
+  description: seoDescription,
+  inLanguage: "es-MX",
+  isPartOf: {
+    "@id": `${cleanTrailingSlash(baseUrl)}#website`,
+  },
+  about: {
+    "@id": `${cleanTrailingSlash(baseUrl)}#restaurant`,
+  },
+};
+
+const breadcrumbSchema = {
+  "@type": "BreadcrumbList",
+  "@id": `${canonicalUrl}#breadcrumb`,
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Inicio",
+      item: canonicalUrl,
+    },
+  ],
+};
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [restaurantSchema, websiteSchema, webPageSchema, breadcrumbSchema],
+};
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{seoTitle}</title>
+<meta name="description" content={seoDescription} />
+<meta
+  name="robots"
+  content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"}
+/>
+<meta name="theme-color" content={seoThemeColor} />
+<link rel="canonical" href={canonicalUrl} />
+
+<meta property="og:locale" content={seoLocale} />
+<meta property="og:site_name" content={seoSiteName} />
+<meta property="og:type" content={seoType} />
+<meta property="og:title" content={seoTitle} />
+<meta property="og:description" content={seoDescription} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={socialImageUrl} />
+<meta property="og:image:secure_url" content={socialImageUrl} />
+<meta property="og:image:width" content={socialImageWidth.toString()} />
+<meta property="og:image:height" content={socialImageHeight.toString()} />
+<meta property="og:image:alt" content={socialImageAlt} />
+{seoType === "article" && publishedTime && (
+  <meta property="article:published_time" content={publishedTime} />
+)}
+{seoType === "article" && modifiedTime && (
+  <meta property="article:modified_time" content={modifiedTime} />
+)}
+
+<meta name="twitter:card" content={seo.twitterCard} />
+<meta name="twitter:title" content={seoTitle} />
+<meta name="twitter:description" content={seoDescription} />
+<meta name="twitter:image" content={socialImageUrl} />
+<meta name="twitter:image:alt" content={socialImageAlt} />
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon.png" />
+<link rel="apple-touch-icon" href="/logo-baklava.png" />
+<link rel="icon" type="image/png" href="/favicon.png" />
+
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>

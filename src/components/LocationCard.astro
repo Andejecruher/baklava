@@ -1,0 +1,46 @@
+---
+interface Props { location: string; mapsHref: string; }
+const { location, mapsHref } = Astro.props;
+---
+
+<section class="section">
+  <h2 class="section-title">Ubicación</h2>
+  <div class="card loc">
+    <div class="top">
+      <div class="icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <div>
+        <p class="title">Encuéntranos junto al mar</p>
+        <p class="addr">{location}</p>
+      </div>
+    </div>
+    <a class="maps-btn" href={mapsHref} target="_blank" rel="noopener">
+      Abrir Google Maps
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+    </a>
+  </div>
+</section>
+
+<style>
+  .loc { padding: 20px; }
+  .top { display: flex; gap: 14px; align-items: flex-start; }
+  .icon {
+    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--turquoise), #0a8d97);
+    color: var(--white);
+    display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 18px rgba(16,184,196,0.35);
+  }
+  .title { margin: 0; font-weight: 600; color: var(--deep); font-size: 15.5px; }
+  .addr { margin: 4px 0 0; color: var(--muted); font-size: 13.5px; }
+  .maps-btn {
+    margin-top: 16px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 13px; border-radius: 12px;
+    background: var(--deep); color: var(--white);
+    font-weight: 600; font-size: 14.5px;
+    transition: background .15s ease, transform .15s ease;
+  }
+  .maps-btn:hover { background: var(--navy); transform: translateY(-1px); }
+</style>

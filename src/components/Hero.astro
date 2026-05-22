@@ -1,0 +1,92 @@
+---
+interface Props {
+  name: string;
+  subtitle: string;
+  description: string;
+  logo: string;
+  menuHref: string;
+  whatsappHref: string;
+}
+const { name, subtitle, description, logo, menuHref, whatsappHref } = Astro.props;
+---
+
+<section class="hero">
+  <div class="hero-card">
+    <span class="eyebrow">Escanea · Consulta · Reserva</span>
+    <div class="logo-wrap">
+      <img src={logo} alt={name} />
+    </div>
+    <h1>{name}</h1>
+    <p class="subtitle">{subtitle}</p>
+    <p class="desc">{description}</p>
+    <div class="cta">
+      <a class="btn btn-primary" href={menuHref}>
+        <span>Ver menú</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+      <a class="btn btn-secondary" href={whatsappHref} target="_blank" rel="noopener">
+        Reservar por WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { padding-top: 8px; }
+  .hero-card {
+    text-align: center;
+    padding: 36px 24px 32px;
+    border-radius: 28px;
+    background:
+      linear-gradient(160deg, rgba(255,255,255,0.92), rgba(255,255,255,0.78)),
+      radial-gradient(600px 300px at 50% -10%, rgba(16,184,196,0.30), transparent 70%);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(14px);
+  }
+  .logo-wrap {
+    width: 200px; height: 72px;
+    margin: 18px auto 18px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .logo-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  h1 {
+    font-size: clamp(28px, 6vw, 36px);
+    font-weight: 600; color: var(--deep);
+    line-height: 1.1;
+  }
+  .subtitle {
+    margin: 10px 0 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--turquoise);
+    font-size: 17px;
+  }
+  .desc {
+    margin: 14px auto 0; max-width: 380px;
+    color: var(--muted); font-size: 14.5px; line-height: 1.55;
+  }
+  .cta {
+    margin-top: 26px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 16px 22px; border-radius: 14px;
+    font-weight: 600; font-size: 15.5px;
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    width: 100%;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--turquoise), #0a8d97);
+    color: var(--white);
+    box-shadow: 0 10px 24px rgba(16,184,196,0.35);
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 14px 30px rgba(16,184,196,0.45); }
+  .btn-secondary {
+    background: var(--white);
+    color: var(--deep);
+    border: 1px solid rgba(6,59,91,0.12);
+  }
+  .btn-secondary:hover { background: var(--sand); }
+</style>
