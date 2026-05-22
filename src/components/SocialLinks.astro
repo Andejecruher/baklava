@@ -8,23 +8,58 @@ interface Props {
 const { instagramHref, instagramHandle, facebookHref, facebookName } = Astro.props;
 ---
 
-<section class="section">
-  <h2 class="section-title">Síguenos</h2>
+<section class="section" aria-labelledby="social-title">
+  <h2 class="section-title" id="social-title">Síguenos</h2>
   <div class="grid">
-    <a href={instagramHref} target="_blank" rel="noopener" class="social card ig">
-      <div class="icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+    <a
+      href={instagramHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="social card ig"
+      aria-label={`Seguir en Instagram — ${instagramHandle}`}
+    >
+      <div class="icon" aria-hidden="true">
+        <svg
+          width="22" height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect width="20" height="20" x="2" y="2" rx="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+        </svg>
       </div>
-      <div>
+      <div class="info">
         <p class="net">Instagram</p>
         <p class="handle">{instagramHandle}</p>
       </div>
     </a>
-    <a href={facebookHref} target="_blank" rel="noopener" class="social card fb">
-      <div class="icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+
+    <a
+      href={facebookHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="social card fb"
+      aria-label={`Seguir en Facebook — ${facebookName}`}
+    >
+      <div class="icon" aria-hidden="true">
+        <svg
+          width="22" height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+        </svg>
       </div>
-      <div>
+      <div class="info">
         <p class="net">Facebook</p>
         <p class="handle">{facebookName}</p>
       </div>
@@ -33,22 +68,58 @@ const { instagramHref, instagramHandle, facebookHref, facebookName } = Astro.pro
 </section>
 
 <style>
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
   .social {
-    display: flex; align-items: center; gap: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
     padding: 16px;
-    transition: transform .15s ease, box-shadow .15s ease;
+    min-height: 64px;   /* touch-friendly */
+    transition:
+      transform var(--duration-base) var(--ease-out-expo),
+      box-shadow var(--duration-base) ease;
+    position: relative;
+    overflow: hidden;
   }
-  .social:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .social::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity var(--duration-base) ease;
+    pointer-events: none;
+  }
+  .ig::after  { background: linear-gradient(135deg, rgba(245,133,41,0.06), rgba(221,42,123,0.06)); }
+  .fb::after  { background: linear-gradient(135deg, rgba(24,119,242,0.06), transparent); }
+  .social:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .social:hover::after { opacity: 1; }
+  .social:active { transform: translateY(-1px); }
+
   .icon {
-    width: 42px; height: 42px; border-radius: 12px;
-    display: inline-flex; align-items: center; justify-content: center;
-    color: var(--white); flex-shrink: 0;
+    width: 44px; height: 44px;
+    border-radius: 13px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--c-white);
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: transform var(--duration-base) ease;
   }
+  .social:hover .icon { transform: scale(1.07); }
+
   .ig .icon { background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af); }
   .fb .icon { background: linear-gradient(135deg, #1877f2, #0a52c5); }
-  .net { margin: 0; font-size: 12px; color: var(--muted); font-weight: 500; }
-  .handle { margin: 2px 0 0; font-size: 13.5px; font-weight: 600; color: var(--deep); }
+
+  .info { min-width: 0; }
+  .net    { margin: 0; font-size: 11.5px; color: var(--c-muted); font-weight: 500; }
+  .handle { margin: 2px 0 0; font-size: 13px; font-weight: 600; color: var(--c-deep); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
   @media (max-width: 380px) {
     .grid { grid-template-columns: 1fr; }
   }

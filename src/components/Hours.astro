@@ -4,15 +4,26 @@ interface Props { hours: HoursEntry[]; }
 const { hours } = Astro.props;
 ---
 
-<section class="section">
-  <h2 class="section-title">Horarios</h2>
-  <div class="card hours">
-    <div class="icon">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+<section class="section" aria-labelledby="hours-title">
+  <h2 class="section-title" id="hours-title">Horarios</h2>
+  <div class="card hours" role="list">
+    <div class="hours-icon" aria-hidden="true">
+      <svg
+        width="22" height="22"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="12" r="10"/>
+        <polyline points="12 6 12 12 16 14"/>
+      </svg>
     </div>
-    <ul>
+    <ul role="list" aria-label="Horarios de apertura">
       {hours.map((h) => (
-        <li>
+        <li role="listitem">
           <span class="day">{h.day}</span>
           <span class="time">{h.time}</span>
         </li>
@@ -22,15 +33,50 @@ const { hours } = Astro.props;
 </section>
 
 <style>
-  .hours { padding: 20px; display: flex; gap: 16px; align-items: flex-start; }
-  .icon {
-    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
-    background: linear-gradient(135deg, rgba(16,184,196,0.15), rgba(189,234,217,0.4));
-    color: var(--turquoise);
-    display: inline-flex; align-items: center; justify-content: center;
+  .hours {
+    padding: 20px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition:
+      transform var(--duration-base) var(--ease-out-expo),
+      box-shadow var(--duration-base) ease;
   }
-  ul { list-style: none; margin: 0; padding: 0; flex: 1; }
-  li { display: flex; flex-direction: column; gap: 2px; padding: 4px 0; }
-  .day { font-weight: 600; color: var(--deep); font-size: 15px; }
-  .time { color: var(--muted); font-size: 13.5px; }
+  .hours:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .hours-icon {
+    width: 46px; height: 46px;
+    border-radius: 13px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, rgba(25,184,198,0.15), rgba(184,232,223,0.4));
+    color: var(--c-turquoise);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(25,184,198,0.15);
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+  }
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 4px 0;
+  }
+  li + li {
+    border-top: 1px solid rgba(7,59,76,0.06);
+    margin-top: 6px;
+    padding-top: 10px;
+  }
+
+  .day  { font-weight: 600; color: var(--c-deep); font-size: 15px; }
+  .time { color: var(--c-muted); font-size: 13.5px; margin-top: 2px; }
 </style>

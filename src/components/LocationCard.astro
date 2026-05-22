@@ -3,44 +3,123 @@ interface Props { location: string; mapsHref: string; }
 const { location, mapsHref } = Astro.props;
 ---
 
-<section class="section">
-  <h2 class="section-title">Ubicación</h2>
+<section class="section" aria-labelledby="location-title">
+  <h2 class="section-title" id="location-title">Ubicación</h2>
   <div class="card loc">
     <div class="top">
-      <div class="icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+      <div class="loc-icon" aria-hidden="true">
+        <svg
+          width="22" height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
       </div>
       <div>
         <p class="title">Encuéntranos junto al mar</p>
         <p class="addr">{location}</p>
       </div>
     </div>
-    <a class="maps-btn" href={mapsHref} target="_blank" rel="noopener">
-      Abrir Google Maps
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+    <a
+      class="maps-btn"
+      href={mapsHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Abrir Google Maps — ${location}`}
+    >
+      <svg
+        width="18" height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21 3 6"/>
+        <line x1="9" x2="9" y1="3" y2="18"/>
+        <line x1="15" x2="15" y1="6" y2="21"/>
+      </svg>
+      Abrir en Google Maps
+      <svg
+        class="ext-arrow"
+        width="16" height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M7 17 17 7"/>
+        <path d="M7 7h10v10"/>
+      </svg>
     </a>
   </div>
 </section>
 
 <style>
   .loc { padding: 20px; }
-  .top { display: flex; gap: 14px; align-items: flex-start; }
-  .icon {
-    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
-    background: linear-gradient(135deg, var(--turquoise), #0a8d97);
-    color: var(--white);
-    display: inline-flex; align-items: center; justify-content: center;
-    box-shadow: 0 8px 18px rgba(16,184,196,0.35);
+
+  .top {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
   }
-  .title { margin: 0; font-weight: 600; color: var(--deep); font-size: 15.5px; }
-  .addr { margin: 4px 0 0; color: var(--muted); font-size: 13.5px; }
+
+  .loc-icon {
+    width: 46px; height: 46px;
+    border-radius: 13px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--c-turquoise), var(--c-turquoise-dk));
+    color: var(--c-white);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(25,184,198,0.38);
+  }
+
+  .title { margin: 0; font-weight: 600; color: var(--c-deep); font-size: 15.5px; }
+  .addr  { margin: 4px 0 0; color: var(--c-muted); font-size: 13.5px; }
+
   .maps-btn {
     margin-top: 16px;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    padding: 13px; border-radius: 12px;
-    background: var(--deep); color: var(--white);
-    font-weight: 600; font-size: 14.5px;
-    transition: background .15s ease, transform .15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px;
+    min-height: 52px;     /* touch-friendly */
+    border-radius: 13px;
+    background: var(--c-deep);
+    color: var(--c-white);
+    font-weight: 600;
+    font-size: 14.5px;
+    transition:
+      background var(--duration-base) ease,
+      transform var(--duration-base) var(--ease-out-expo),
+      box-shadow var(--duration-base) ease;
+    box-shadow: 0 6px 18px rgba(11,45,58,0.22);
   }
-  .maps-btn:hover { background: var(--navy); transform: translateY(-1px); }
+  .maps-btn:hover {
+    background: var(--c-navy);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(11,45,58,0.30);
+  }
+  .maps-btn:active { transform: translateY(0); }
+
+  .ext-arrow {
+    transition: transform var(--duration-base) ease;
+  }
+  .maps-btn:hover .ext-arrow {
+    transform: translate(2px, -2px);
+  }
 </style>

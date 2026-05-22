@@ -4,13 +4,29 @@ interface Props { promotions: Promotion[]; }
 const { promotions } = Astro.props;
 ---
 
-<section class="section" id="promociones">
-  <h2 class="section-title">Promos del día</h2>
-  <div class="promo-grid">
-    {promotions.map((p) => (
-      <article class="promo card">
-        <div class="badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+<section class="section" id="promociones" aria-labelledby="promos-title">
+  <h2 class="section-title" id="promos-title">Promos del día</h2>
+  <div class="promo-grid" role="list">
+    {promotions.map((p, i) => (
+      <article
+        class={`promo card anim-fade-up stagger-${Math.min(i + 1, 6)}`}
+        role="listitem"
+        aria-label={p.title}
+      >
+        <div class="badge" aria-hidden="true">
+          <svg
+            width="14" height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+            <line x1="7" x2="7.01" y1="7" y2="7"/>
+          </svg>
           2x1
         </div>
         <h3>{p.title}</h3>
@@ -22,21 +38,79 @@ const { promotions } = Astro.props;
 </section>
 
 <style>
-  .promo-grid { display: flex; flex-direction: column; gap: 14px; }
-  .promo { padding: 22px 20px; position: relative; overflow: hidden; }
-  .promo::before {
-    content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
-    background: linear-gradient(180deg, var(--turquoise), var(--turquoise-soft));
+  .promo-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
   }
+
+  .promo {
+    padding: 22px 20px;
+    position: relative;
+    overflow: hidden;
+    transition:
+      transform var(--duration-base) var(--ease-out-expo),
+      box-shadow var(--duration-base) ease;
+    cursor: default;
+  }
+  .promo::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: linear-gradient(180deg, var(--c-turquoise), var(--turquoise-soft));
+    border-radius: 4px 0 0 4px;
+  }
+  .promo:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Sheen accent on hover */
+  .promo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(25,184,198,0.06) 0%,
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity var(--duration-base) ease;
+    pointer-events: none;
+  }
+  .promo:hover::after { opacity: 1; }
+
   .badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
-    color: var(--turquoise);
-    background: rgba(16,184,196,0.10);
-    padding: 5px 10px; border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--c-turquoise);
+    background: rgba(25,184,198,0.10);
+    padding: 5px 10px;
+    border-radius: 999px;
     margin-bottom: 10px;
   }
-  h3 { font-size: 19px; font-weight: 600; color: var(--deep); }
-  .time { margin: 6px 0 0; color: var(--navy); font-size: 14px; font-weight: 500; }
-  .note { margin: 10px 0 0; color: var(--muted); font-size: 12.5px; font-style: italic; }
+
+  h3 {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--c-deep);
+  }
+  .time {
+    margin: 6px 0 0;
+    color: var(--c-navy);
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .note {
+    margin: 10px 0 0;
+    color: var(--c-muted);
+    font-size: 12.5px;
+    font-style: italic;
+  }
 </style>

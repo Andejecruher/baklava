@@ -3,24 +3,68 @@ interface Props { name: string; logo: string; }
 const { name, logo } = Astro.props;
 ---
 
-<footer class="foot">
-  <img src={logo} alt={name} />
+<footer class="foot" role="contentinfo">
+  <div class="divider" aria-hidden="true"></div>
+  <img src={logo} alt={`Logo de ${name}`} width="140" height="auto" loading="lazy" />
   <p class="brand">{name}</p>
   <p class="tagline">Experiencias frescas frente al mar.</p>
-  <p class="note">Promociones sujetas a disponibilidad.</p>
-  <p class="copy">© {new Date().getFullYear()} Baklava Club de Mar</p>
+  <p class="note" role="note">Promociones sujetas a disponibilidad.</p>
+  <p class="copy">
+    <small>© {new Date().getFullYear()} {name}. Todos los derechos reservados.</small>
+  </p>
 </footer>
 
 <style>
   .foot {
     margin-top: 56px;
     text-align: center;
-    padding: 28px 16px 8px;
-    border-top: 1px solid rgba(6,59,91,0.08);
+    padding: 0 16px 16px;
   }
-  img { width: 140px; height: auto; opacity: 0.85; margin-bottom: 10px; }
-  .brand { margin: 4px 0 0; font-family: var(--font-display); font-weight: 600; color: var(--deep); font-size: 16px; }
-  .tagline { margin: 6px 0 0; color: var(--turquoise); font-size: 13px; font-style: italic; }
-  .note { margin: 14px 0 0; color: var(--muted); font-size: 11.5px; }
-  .copy { margin: 8px 0 0; color: var(--muted); font-size: 11px; opacity: 0.7; }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(7,59,76,0.12) 20%,
+      rgba(25,184,198,0.25) 50%,
+      rgba(7,59,76,0.12) 80%,
+      transparent
+    );
+    margin-bottom: 28px;
+  }
+
+  img {
+    width: 130px;
+    height: auto;
+    opacity: 0.82;
+    margin-bottom: 10px;
+    transition: opacity var(--duration-base) ease;
+  }
+  img:hover { opacity: 1; }
+
+  .brand {
+    margin: 4px 0 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--c-deep);
+    font-size: 16px;
+  }
+  .tagline {
+    margin: 6px 0 0;
+    color: var(--c-turquoise);
+    font-size: 13px;
+    font-style: italic;
+  }
+  .note {
+    margin: 14px 0 0;
+    color: var(--c-muted);
+    font-size: 11.5px;
+  }
+  .copy {
+    margin: 8px 0 0;
+    color: var(--c-muted);
+    font-size: 11px;
+    opacity: 0.65;
+  }
 </style>
