@@ -1,3 +1,12 @@
+import {
+  FACEBOOK_URL,
+  GOOGLE_MAPS_URL,
+  INSTAGRAM_URL,
+  MENU_URL,
+  WHATSAPP_NUMBER,
+  WHATSAPP_URL,
+} from "./config";
+
 export interface Promotion {
   title: string;
   description: string;
@@ -19,11 +28,11 @@ export const siteData = {
     logo: "/logo-baklava.png",
   },
   links: {
-    menu: "https://baklava.mx/menu/",
-    whatsapp: "https://api.whatsapp.com/send/?phone=5219541770078&text=Hola+Baklava+Restaurante%2C+deseo+hacer+una+reservaci%C3%B3n+con+ustedes%2C+muchas+gracias.&type=phone_number&app_absent=0",
-    maps: "https://maps.app.goo.gl/SC9jznp1PDFt8eeW6",
-    instagram: "https://www.instagram.com/baklavarestaurants",
-    facebook: "https://www.facebook.com/profile.php?id=61556102049245&locale=es_LA",
+    menu: MENU_URL,
+    whatsapp: WHATSAPP_URL,
+    maps: GOOGLE_MAPS_URL,
+    instagram: INSTAGRAM_URL,
+    facebook: FACEBOOK_URL,
   },
   promotions: [
     {
@@ -40,7 +49,7 @@ export const siteData = {
   hours: [
     {
       day: "Lunes a domingo",
-      time: "8 a.m.–9 p.m",
+      time: "8 a.m.–9 p.m",
     },
   ] as HoursEntry[],
   social: {
@@ -48,40 +57,35 @@ export const siteData = {
     facebookName: "Baklava Restaurants",
   },
   seo: {
-    siteUrl: "https://baklava.mx",
+    siteUrl: "https://baklava-seven.vercel.app",
     siteName: "Baklava Club de Mar",
     defaultTitle: "Baklava Club de Mar | Cocina mediterránea frente al mar",
     defaultDescription:
       "Disfruta Baklava Club de Mar: cocina mediterránea, ambiente exclusivo, vista al Pacífico, menú, eventos y reservaciones en un solo lugar.",
     locale: "es_MX",
     type: "website",
-    image: "/og/baklava-og.jpg",
+    image: "/og/baklava-og.png",
     imageWidth: 1200,
     imageHeight: 630,
-    imageAlt:
-      "Baklava Club de Mar, experiencia mediterránea frente al mar",
-    themeColor: "#00b7c7",
-    brandColor: "#00b7c7",
+    imageAlt: "Baklava Club de Mar, experiencia mediterránea frente al mar",
+    themeColor: "#19B8C6",
+    brandColor: "#19B8C6",
     twitterCard: "summary_large_image",
   },
   schema: {
-    // Reemplazar con datos reales cuando estén disponibles.
     priceRange: "$$",
-    menuUrl: "https://baklava.mx/menu/",
-    telephone: "5219541770078",
-    openingHours: ["8 a.m.–9 p.m"],
+    menuUrl: MENU_URL,
+    telephone: WHATSAPP_NUMBER,
+    openingHours: ["8 a.m.–9 p.m"],
     address: {
-      streetAddress: "Blvrd Riviera Nayarit 950, 63732 Cruz de Huanacaxtle, Nay.",
+      streetAddress:
+        "Blvrd Riviera Nayarit 950, 63732 Cruz de Huanacaxtle, Nay.",
       addressLocality: "Bucerias",
       addressRegion: "Nayarit",
       postalCode: "63732",
       addressCountry: "MX",
     },
-    sameAs: [
-      "https://api.whatsapp.com/send/?phone=5219541770078&text=Hola+Baklava+Restaurante%2C+deseo+hacer+una+reservaci%C3%B3n+con+ustedes%2C+muchas+gracias.&type=phone_number&app_absent=0",
-      "https://www.instagram.com/baklavarestaurants",
-      "https://www.facebook.com/profile.php?id=61556102049245&locale=es_LA"
-    ],
+    sameAs: [WHATSAPP_URL, INSTAGRAM_URL, FACEBOOK_URL],
   },
 };
 
