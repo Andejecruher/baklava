@@ -35,8 +35,22 @@ const { currentLocale, label } = Astro.props;
 <script>
   import { LOCALE_STORAGE_KEY } from '../i18n/config';
 
-  document.querySelectorAll<HTMLAnchorElement>('[data-lang]').forEach((link) => {
-    link.addEventListener('click', () => {
+  interface WindowWithLangSelectorFlag extends Window {
+    __baklavaLangSelectorBound?: boolean;
+  }
+
+  const runtimeWindow = window as WindowWithLangSelectorFlag;
+
+  if (!runtimeWindow.__baklavaLangSelectorBound) {
+    runtimeWindow.__baklavaLangSelectorBound = true;
+
+    document.addEventListener('click', (event) => {
+      const source = event.target;
+      if (!(source instanceof Element)) return;
+
+      const link = source.closest('a[data-lang]');
+      if (!(link instanceof HTMLAnchorElement)) return;
+
       const lang = link.dataset.lang;
       if (!lang) return;
 
@@ -52,7 +66,7 @@ const { currentLocale, label } = Astro.props;
         // Storage not available — silently ignore
       }
     });
-  });
+  }
 </script>
 
 <style>

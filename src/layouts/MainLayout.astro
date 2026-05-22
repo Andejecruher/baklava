@@ -1,5 +1,6 @@
 ---
 import SEO from "../components/SEO.astro";
+import { ViewTransitions } from 'astro:transitions';
 import { LOCALE_LANG, type Locale } from "../i18n/config";
 import { buildHreflangAlternates } from "../i18n/utils";
 import { siteData } from "../data/site";
@@ -40,6 +41,7 @@ const hreflangLinks = buildHreflangAlternates(siteData.seo.siteUrl, Astro.url.pa
 <!doctype html>
 <html lang={htmlLang}>
   <head>
+    <ViewTransitions />
     <SEO
       title={title}
       description={description}
