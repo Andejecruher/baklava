@@ -20,7 +20,7 @@ export interface HoursEntry {
 
 export const siteData = {
   brand: {
-    name: "Baklava Club de Mar",
+    name: "Baklava Beach Club",
     subtitle: "Sabores frescos frente al mar",
     description:
       "Consulta nuestro menú, promociones, ubicación y redes desde un solo lugar.",
