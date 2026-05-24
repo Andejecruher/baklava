@@ -190,12 +190,12 @@ export const siteData = {
   },
 
   seo: {
-    siteUrl: "https://ysuri.com",
+    siteUrl: "https://baklava-288o.vercel.app",
     siteName: "Ysuri Sailing",
     defaultTitle:
-      "Ysuri Sailing | Catamarán, pesca, snorkel y tours en Bahía de Banderas",
+      "Ysuri Sailing | Catamarán y tours en Bahía de Banderas",
     defaultDescription:
-      "Reserva experiencias privadas y compartidas con Ysuri Sailing: catamarán, pesca, snorkel, avistamiento de ballenas y paseos al atardecer desde Marina La Cruz de Huanacaxtle.",
+      "Reserva tours en catamarán o panga: pesca, snorkel y avistamiento de ballenas desde Marina La Cruz de Huanacaxtle.",
     locale: "es_MX",
     type: "website",
     image: "/og/logo-ysuri.png",
