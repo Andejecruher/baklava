@@ -1,39 +1,44 @@
 ---
-import type { Promotion } from "../data/site";
-interface Props { promotions: Promotion[]; title?: string; }
+import type { Promotion } from '../data/site';
+interface Props {
+  promotions: Promotion[];
+  title?: string;
+}
 const { promotions, title = 'Promos del día' } = Astro.props;
 ---
 
 <section class="section" id="promociones" aria-labelledby="promos-title">
   <h2 class="section-title" id="promos-title">{title}</h2>
   <div class="promo-grid" role="list">
-    {promotions.map((p, i) => (
-      <article
-        class={`promo card anim-fade-up stagger-${Math.min(i + 1, 6)}`}
-        role="listitem"
-        aria-label={p.title}
-      >
-        <div class="badge" aria-hidden="true">
-          <svg
-            width="14" height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
-            <line x1="7" x2="7.01" y1="7" y2="7"/>
-          </svg>
-          2x1
-        </div>
-        <h3>{p.title}</h3>
-        <p class="time">{p.description}</p>
-        {p.note && <p class="note">{p.note}</p>}
-      </article>
-    ))}
+    {
+      promotions.map((p, i) => (
+        <article
+          class={`promo card anim-fade-up stagger-${Math.min(i + 1, 6)}`}
+          role="listitem"
+          aria-label={p.title}
+        >
+          <div class="badge" aria-hidden="true">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+              <line x1="7" x2="7.01" y1="7" y2="7" />
+            </svg>
+          </div>
+          <h3>{p.title}</h3>
+          <p class="time">{p.description}</p>
+          {p.note && <p class="note">{p.note}</p>}
+        </article>
+      ))
+    }
   </div>
 </section>
 
@@ -54,10 +59,12 @@ const { promotions, title = 'Promos del día' } = Astro.props;
     cursor: default;
   }
   .promo::before {
-    content: "";
+    content: '';
     position: absolute;
-    top: 0; left: 0;
-    width: 4px; height: 100%;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
     background: linear-gradient(180deg, var(--c-turquoise), var(--turquoise-soft));
     border-radius: 4px 0 0 4px;
   }
@@ -68,19 +75,17 @@ const { promotions, title = 'Promos del día' } = Astro.props;
 
   /* Sheen accent on hover */
   .promo::after {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(25,184,198,0.06) 0%,
-      transparent 60%
-    );
+    background: linear-gradient(135deg, rgba(25, 184, 198, 0.06) 0%, transparent 60%);
     opacity: 0;
     transition: opacity var(--duration-base) ease;
     pointer-events: none;
   }
-  .promo:hover::after { opacity: 1; }
+  .promo:hover::after {
+    opacity: 1;
+  }
 
   .badge {
     display: inline-flex;
@@ -90,7 +95,7 @@ const { promotions, title = 'Promos del día' } = Astro.props;
     font-weight: 700;
     letter-spacing: 0.1em;
     color: var(--c-turquoise);
-    background: rgba(25,184,198,0.10);
+    background: rgba(25, 184, 198, 0.1);
     padding: 5px 10px;
     border-radius: 999px;
     margin-bottom: 10px;
