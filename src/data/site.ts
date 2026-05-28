@@ -15,7 +15,10 @@ export interface Promotion {
   schedule?: string;
   capacity?: string;
   note?: string;
-  includes?: string[];
+  includes?: {
+    title: string;
+    items: string[];
+  }[];
 }
 
 export interface HoursEntry {
@@ -26,11 +29,10 @@ export interface HoursEntry {
 export const siteData = {
   brand: {
     name: "YSURI SAILING",
-    subtitle:
-      "Experiencias privadas en catamarán y panga desde Marina La Cruz de Huanacaxtle",
+    subtitle: "Catamarán Ysuri en Marina La Cruz de Huanacaxtle",
     description:
-      "Reserva tours, pesca, snorkel, avistamiento de ballenas y paseos al atardecer desde un solo lugar.",
-    location: "Marina La Cruz de Huanacaxtle, Nayarit",
+      "Consulta promociones, tours privados, ticketeo, amenidades, ubicación y reservas desde un solo lugar.",
+    location: "Marina La Cruz de Huanacaxtle, Muelle 1",
     logo: "/ysuri/logo-ysuri.png",
   },
 
@@ -44,136 +46,70 @@ export const siteData = {
 
   promotions: [
     {
-      title: "Catamarán Ysuri · Viaje matutino",
+      title: "Viaje matutino",
       description:
-        "Experiencia privada para grupos de hasta 12 personas con comida, bebidas y actividades incluidas.",
-      price: "$1,950 USD",
-      duration: "5 horas",
-      schedule: "9:00 a.m. a 2:00 p.m.",
+        "Experiencia en catamarán para grupos de hasta 12 personas.",
+      price: "$1,300 USD",
+      duration: "4 horas",
+      schedule: "10:00 a.m. a 2:00 p.m.",
       capacity: "Hasta 12 personas",
-      note: "+1 hora gratis",
-      includes: [
-        "Alimentos",
-        "Bebidas",
-        "Actividades acuáticas",
-        "Barra libre premium",
-        "Paddleboards",
-        "Equipo de snorkel",
-        "Lily pad",
-        "Cañas de pescar",
-      ],
+      note: "Incluye comida, bebidas y actividades.",
     },
     {
-      title: "Catamarán Ysuri · Paseo al atardecer",
+      title: "Paseo al atardecer",
       description:
-        "Paseo privado ideal para disfrutar la tarde en la bahía con alimentos, bebidas y actividades.",
+        "Tour en catamarán para disfrutar la tarde navegando con comida, bebidas y actividades incluidas.",
       price: "$1,200 USD",
       duration: "4 horas",
       schedule: "3:00 p.m. a 7:00 p.m.",
       capacity: "Hasta 12 personas",
-      note: "Persona extra: $100 USD · Hora extra: $400 USD",
-      includes: [
-        "Comida",
-        "Bebidas",
-        "Actividades",
-        "Barra libre premium",
-        "Amenidades acuáticas",
-      ],
+      note: "Persona extra: $50 USD · Hora extra: $250 USD.",
     },
     {
-      title: "Catamarán Ysuri · Ticketing hacia el Sur",
+      title: "Ticketeo",
       description:
-        "Tour compartido hacia el Sur con salida desde Marina La Cruz de Huanacaxtle.",
-      price: "$100 USD por persona",
-      duration: "6 horas",
-      schedule: "9:00 a.m. a 3:00 p.m.",
-      note: "Salida desde Marina La Cruz de Huanacaxtle, muelle 1",
-      includes: [
-        "Paninis",
-        "Ceviches",
-        "Fruta de temporada",
-        "Guacamole",
-        "Bebidas",
-        "Amenidades acuáticas",
-      ],
-    },
-    {
-      title: "Catamarán Ysuri · Marietas y snorkel",
-      description:
-        "Tour compartido a Marietas con snorkel en playa La Nopalera.",
-      price: "$120 USD por persona",
-      duration: "6 horas",
-      schedule: "9:00 a.m. a 3:00 p.m.",
-      note: "No incluye Playa del Amor",
-      includes: [
-        "Snorkel en playa La Nopalera",
-        "Alimentos",
-        "Bebidas",
-        "Equipo de snorkel",
-        "Amenidades acuáticas",
-      ],
-    },
-    {
-      title: "Catamarán Ysuri · Marietas con Playa del Amor",
-      description:
-        "Experiencia compartida con visita a Marietas y Playa del Amor incluida.",
-      price: "$170 USD por persona",
-      duration: "6 horas",
-      schedule: "9:00 a.m. a 3:00 p.m.",
-      note: "Playa del Amor y Marietas incluido",
-      includes: [
-        "Marietas",
-        "Playa del Amor",
-        "Alimentos",
-        "Bebidas",
-        "Equipo de snorkel",
-      ],
-    },
-    {
-      title: "La Pinta · Pesca privada",
-      description:
-        "Panga de 26 pies lista para salir de excursión, ideal para grupos pequeños.",
-      price: "Desde $350 USD",
-      duration: "4, 6 u 8 horas",
-      capacity: "Hasta 8 personas",
-      note: "4 horas: $350 USD · 6 horas: $400 USD · 8 horas: $450 USD",
-      includes: [
-        "Croissant de jamón y queso",
-        "Cerveza",
-        "Refresco",
-        "Agua embotellada",
-        "Hielo",
-      ],
-    },
-    {
-      title: "La Pinta · Avistamiento de ballenas",
-      description:
-        "Tour de temporada para disfrutar el avistamiento de ballenas en Bahía de Banderas.",
-      price: "$200 USD",
-      duration: "3 horas",
-      capacity: "Hasta 8 personas",
-      note: "Por temporada · Hora extra: $50 USD",
-      includes: [
-        "Bebidas",
-        "Agua embotellada",
-        "Hielo",
-      ],
-    },
-    {
-      title: "La Pinta · Tour de snorkel",
-      description:
-        "Tour privado de snorkel en panga para grupos de hasta 8 personas.",
-      price: "$350 USD",
+        "Tour compartido con salida desde Marina La Cruz de Huanacaxtle, Muelle 1.",
+      price: "$65 USD por persona",
       duration: "4 horas",
-      capacity: "Hasta 8 personas",
+      schedule: "10:00 a.m. a 2:00 p.m.",
       includes: [
-        "Snorkel",
-        "Croissant de jamón y queso",
-        "Cerveza",
-        "Refresco",
-        "Agua embotellada",
-        "Hielo",
+        {
+          title: "Alimentos",
+          items: [
+            "Paninis",
+            "Ceviche de camarón",
+            "Ceviche de pescado",
+            "Crudités",
+            "Fruta de temporada",
+            "Guacamole",
+          ],
+        },
+        {
+          title: "Amenidades",
+          items: [
+            "4 paddleboards",
+            "Equipo de snorkel",
+            "Lily pad",
+            "Cañas de pescar para trolear",
+          ],
+        },
+        {
+          title: "Barra libre premium",
+          items: [
+            "Ron",
+            "Tequila",
+            "Vodka",
+            "Whisky",
+            "Ginebra",
+            "Vino blanco",
+            "Mixers",
+            "Agua embotellada",
+            "Hielo",
+          ],
+        },
       ],
+      note:
+        "Fotógrafo a bordo disponible con costo extra. No está incluido en el precio del tour.",
     },
   ] as Promotion[],
 
@@ -190,19 +126,18 @@ export const siteData = {
   },
 
   seo: {
-    siteUrl: "https://baklava-288o.vercel.app",
+    siteUrl: "https://ysuri.com",
     siteName: "Ysuri Sailing",
     defaultTitle:
-      "Ysuri Sailing | Catamarán y tours en Bahía de Banderas",
+      "Ysuri Sailing | Catamarán, promociones y tours en La Cruz de Huanacaxtle",
     defaultDescription:
-      "Reserva tours en catamarán o panga: pesca, snorkel y avistamiento de ballenas desde Marina La Cruz de Huanacaxtle.",
+      "Reserva experiencias en Catamarán Ysuri: viaje matutino, paseo al atardecer y tours compartidos desde Marina La Cruz de Huanacaxtle, Muelle 1.",
     locale: "es_MX",
     type: "website",
     image: "/og/logo-ysuri.png",
     imageWidth: 1200,
     imageHeight: 630,
-    imageAlt:
-      "Ysuri Sailing, catamarán y tours marítimos en Bahía de Banderas",
+    imageAlt: "Catamarán Ysuri en Marina La Cruz de Huanacaxtle",
     themeColor: "#19B8C6",
     brandColor: "#19B8C6",
     twitterCard: "summary_large_image",
@@ -214,13 +149,18 @@ export const siteData = {
     telephone: WHATSAPP_NUMBER,
     openingHours: ["Reservas sujetas a disponibilidad"],
     address: {
-      streetAddress: "Marina La Cruz de Huanacaxtle, muelle 1",
+      streetAddress: "Marina La Cruz de Huanacaxtle, Muelle 1",
       addressLocality: "La Cruz de Huanacaxtle",
       addressRegion: "Nayarit",
       postalCode: "63734",
       addressCountry: "MX",
     },
     sameAs: [WHATSAPP_URL, INSTAGRAM_URL, FACEBOOK_URL],
+  },
+
+  policies: {
+    cancellation:
+      "Reembolsos solamente disponibles si se solicitan al menos 30 días antes de la fecha prevista.",
   },
 };
 

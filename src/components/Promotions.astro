@@ -1,10 +1,24 @@
 ---
 import type { Promotion } from '../data/site';
+
+interface PromoLabels {
+  price: string;
+  duration: string;
+  schedule: string;
+  capacity: string;
+  includes: string;
+  importantInfo: string;
+  cancellationPolicy: string;
+}
+
 interface Props {
   promotions: Promotion[];
   title?: string;
+  cancellationPolicy?: string;
+  labels?: PromoLabels;
 }
-const { promotions, title = 'Promos del día' } = Astro.props;
+
+const { promotions, title = 'Promociones', cancellationPolicy, labels } = Astro.props;
 ---
 
 <section class="section" id="promociones" aria-labelledby="promos-title">
@@ -17,6 +31,7 @@ const { promotions, title = 'Promos del día' } = Astro.props;
           role="listitem"
           aria-label={p.title}
         >
+          {/* ── Badge decorativo ── */}
           <div class="badge" aria-hidden="true">
             <svg
               width="14"
@@ -33,24 +48,188 @@ const { promotions, title = 'Promos del día' } = Astro.props;
               <line x1="7" x2="7.01" y1="7" y2="7" />
             </svg>
           </div>
+
+          {/* ── Cabecera ── */}
           <h3>{p.title}</h3>
-          <p class="time">{p.description}</p>
-          {p.note && <p class="note">{p.note}</p>}
+          <p class="description">{p.description}</p>
+
+          {/* ── Metadata: precio, duración, horario, capacidad ── */}
+          {(p.price || p.duration || p.schedule || p.capacity) && (
+            <dl class="meta-chips" aria-label="Detalles">
+              {p.price && (
+                <div class="meta-chip">
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 6v6l4 2" />
+                  </svg>
+                  <dt class="sr-only">{labels?.price ?? 'Precio'}</dt>
+                  <dd>{p.price}</dd>
+                </div>
+              )}
+              {p.duration && (
+                <div class="meta-chip">
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                  <dt class="sr-only">{labels?.duration ?? 'Duración'}</dt>
+                  <dd>{p.duration}</dd>
+                </div>
+              )}
+              {p.schedule && (
+                <div class="meta-chip">
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <line x1="16" x2="16" y1="2" y2="6" />
+                    <line x1="8" x2="8" y1="2" y2="6" />
+                    <line x1="3" x2="21" y1="10" y2="10" />
+                  </svg>
+                  <dt class="sr-only">{labels?.schedule ?? 'Horario'}</dt>
+                  <dd>{p.schedule}</dd>
+                </div>
+              )}
+              {p.capacity && (
+                <div class="meta-chip">
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  </svg>
+                  <dt class="sr-only">{labels?.capacity ?? 'Capacidad'}</dt>
+                  <dd>{p.capacity}</dd>
+                </div>
+              )}
+            </dl>
+          )}
+
+          {/* ── Incluye ── */}
+          {p.includes && p.includes.length > 0 && (
+            <div class="includes-block">
+              <p class="includes-title" aria-label={labels?.includes ?? 'Incluye'}>
+                {labels?.includes ?? 'Incluye'}
+              </p>
+              {p.includes.map((group) => (
+                <div class="includes-group">
+                  <p class="group-title">{group.title}</p>
+                  <ul class="items-list" role="list">
+                    {group.items.map((item) => (
+                      <li class="item-chip" role="listitem">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* ── Nota importante ── */}
+          {p.note && (
+            <div class="note-block" role="note">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" x2="12" y1="8" y2="12" />
+                <line x1="12" x2="12.01" y1="16" y2="16" />
+              </svg>
+              <p>{p.note}</p>
+            </div>
+          )}
         </article>
       ))
     }
   </div>
+
+  {/* ── Política de cancelación ── */}
+  {
+    cancellationPolicy && (
+      <div
+        class="policy-block anim-fade-up"
+        role="note"
+        aria-label={labels?.cancellationPolicy ?? 'Política de cancelación'}
+      >
+        <div class="policy-header">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          <span>{labels?.cancellationPolicy ?? 'Política de cancelación'}</span>
+        </div>
+        <p>{cancellationPolicy}</p>
+      </div>
+    )
+  }
 </section>
 
 <style>
   .promo-grid {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 16px;
   }
 
+  /* ── Card base ── */
   .promo {
-    padding: 22px 20px;
+    padding: 24px 22px;
     position: relative;
     overflow: hidden;
     transition:
@@ -72,8 +251,6 @@ const { promotions, title = 'Promos del día' } = Astro.props;
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
   }
-
-  /* Sheen accent on hover */
   .promo::after {
     content: '';
     position: absolute;
@@ -87,6 +264,7 @@ const { promotions, title = 'Promos del día' } = Astro.props;
     opacity: 1;
   }
 
+  /* ── Badge ── */
   .badge {
     display: inline-flex;
     align-items: center;
@@ -98,24 +276,164 @@ const { promotions, title = 'Promos del día' } = Astro.props;
     background: rgba(25, 184, 198, 0.1);
     padding: 5px 10px;
     border-radius: 999px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
 
+  /* ── Cabecera ── */
   h3 {
     font-size: 19px;
     font-weight: 600;
     color: var(--c-deep);
+    line-height: 1.2;
   }
-  .time {
+  .description {
     margin: 6px 0 0;
     color: var(--c-navy);
     font-size: 14px;
     font-weight: 500;
+    line-height: 1.5;
   }
-  .note {
-    margin: 10px 0 0;
-    color: var(--c-muted);
+
+  /* ── Meta chips (precio, duración, horario, capacidad) ── */
+  .meta-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .meta-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(7, 59, 76, 0.05);
+    border: 1px solid rgba(7, 59, 76, 0.1);
+    border-radius: 999px;
+    padding: 5px 12px;
     font-size: 12.5px;
+    font-weight: 600;
+    color: var(--c-navy);
+  }
+  .meta-chip svg {
+    color: var(--c-turquoise);
+    flex-shrink: 0;
+  }
+  .meta-chip dd {
+    margin: 0;
+  }
+
+  /* Ocultar visualmente pero mantener para lectores de pantalla */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* ── Bloque "Incluye" ── */
+  .includes-block {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(25, 184, 198, 0.15);
+  }
+  .includes-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c-turquoise);
+    margin: 0 0 12px;
+  }
+  .includes-group {
+    margin-bottom: 14px;
+  }
+  .includes-group:last-child {
+    margin-bottom: 0;
+  }
+  .group-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--c-deep);
+    margin: 0 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .items-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .item-chip {
+    background: rgba(25, 184, 198, 0.08);
+    border: 1px solid rgba(25, 184, 198, 0.2);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--c-navy);
+    white-space: nowrap;
+  }
+
+  /* ── Nota importante ── */
+  .note-block {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 12px 14px;
+    background: rgba(240, 237, 230, 0.6);
+    border-left: 3px solid var(--c-turquoise);
+    border-radius: 0 8px 8px 0;
+  }
+  .note-block svg {
+    color: var(--c-turquoise);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .note-block p {
+    margin: 0;
+    font-size: 12.5px;
+    color: var(--c-muted);
     font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* ── Política de cancelación ── */
+  .policy-block {
+    margin-top: 20px;
+    padding: 18px 20px;
+    background: rgba(7, 59, 76, 0.04);
+    border: 1px solid rgba(7, 59, 76, 0.1);
+    border-radius: var(--radius);
+  }
+  .policy-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .policy-header svg {
+    color: var(--c-turquoise);
+    flex-shrink: 0;
+  }
+  .policy-header span {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--c-navy);
+  }
+  .policy-block p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--c-muted);
+    line-height: 1.6;
   }
 </style>
