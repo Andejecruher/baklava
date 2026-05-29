@@ -126,7 +126,7 @@ export const siteData = {
   },
 
   seo: {
-    siteUrl: "https://ysuri.com",
+    siteUrl: "https://baklava-288o.vercel.app",
     siteName: "Ysuri Sailing",
     defaultTitle:
       "Ysuri Sailing | Catamarán, promociones y tours en La Cruz de Huanacaxtle",
