@@ -10,6 +10,6 @@ export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURICo
 
 export const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/uK3f1MqT3679Wgwr7";
 
-export const MENU_URL = "https://ysuri.com";
+export const MENU_URL = "https://ysurisailing.com/";
 export const INSTAGRAM_URL = "https://www.instagram.com/ysurisailing";
 export const FACEBOOK_URL = "https://www.facebook.com/YsuriSailing";
